@@ -19,7 +19,9 @@ def scrape_all():
         'news_summary': news_summary,
         'featured_image': featured_image(browser),
         'facts': mars_facts(),
-        'last_modified': dt.datetime.now()}
+        'hemispheres': hemispheres(browser),
+        'last_modified': dt.datetime.now()
+        }
 
     # End session/call.
     browser.quit
@@ -62,7 +64,7 @@ def mars_news(browser):
 
     return news_title, news_summary
 
-# ### Featured Images# 
+### Featured Images
 
 def featured_image(browser):
 
@@ -112,6 +114,61 @@ def mars_facts():
 
     # Convert the DataFrame back into HTML code, add bootstrap.
     return df.to_html(classes="table table-striped")
+
+def hemispheres(browser):
+
+# Use browser to visit the URL 
+    url = 'https://marshemispheres.com/'
+
+    browser.visit(url)
+
+# Parse the data.
+    hemi_html = browser.html
+    hemi_soup = soup(hemi_html,'html.parser')
+
+# Create a list to hold the images and titles.
+    hemisphere_image_urls = []
+
+# Write code to retrieve the image urls and titles for each hemisphere.
+    hemi_urls = hemi_soup.find_all('div', class_='item')
+
+# Loop through the page.
+    for hemi_url in hemi_urls:
+
+    # Create an empty dictionary.
+        hemispheres = {}
+    
+    # Find the photo URL on home page.
+        hemi_link = hemi_url.find('a', class_='itemLink product-item')['href']
+    
+    # Merge the base URL with photo URL and visit photo page.
+        browser.visit(url + hemi_link)
+    
+    # Parse the photo data.
+        photo_html = browser.html
+        photo_soup = soup(photo_html,'html.parser')
+    
+    # Retrieve the relative photo URL.
+        img_url_rel = photo_soup.find('img', class_='wide-image').get('src')
+    
+    # Retrieve the title.
+        title = browser.find_by_css('h2.title').text
+    
+    # Create the absolute photo URL.
+        img_url = f'https://marshemispheres.com/{img_url_rel}'
+
+    # Save back to the dictionary.
+        hemispheres['title'] = title
+        hemispheres['img_url'] = img_url
+    
+    # Append to the list.
+        hemisphere_image_urls.append(hemispheres)
+    
+    # Use the "back button" to move to the next image.
+        browser.back()
+    
+# Print the list that holds the dictionary of each image url and title.
+    return hemisphere_image_urls
 
 # Final step.
 if __name__ == "__main__":
