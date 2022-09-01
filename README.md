@@ -21,7 +21,13 @@ The purpose of this project was to create a web app that showcases the planet Ma
 While there were many moving parts, this project performed as planned. The code was efficient and executed seamlessly. The published product rendered well across all device platforms and was responsive 100% of the time during the numerous tests. Please see supporting documentation below.
 
 <sub> Video of Mobile Device Render </sub>
-https://user-images.githubusercontent.com/104373314/187949233-e4b5f7cc-173c-42f9-ae23-fb666d852cb2.mov
+
+
+
+https://user-images.githubusercontent.com/104373314/187953182-84d64cda-2743-4ab4-91a5-7f2f41ef5c93.mov
+
+
+
 
 ## File Links
 
